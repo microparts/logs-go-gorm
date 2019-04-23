@@ -10,8 +10,8 @@ type gormLogger struct {
 	gorm.LogWriter
 }
 
-//GormLogger initiates new gorm logger
-func GormLogger(logger *logrus.Logger) gorm.LogWriter {
+//NewLogger initiates new gorm logger
+func NewLogger(logger *logrus.Logger) gorm.LogWriter {
 	return &gormLogger{Logger: logger}
 }
 
@@ -23,4 +23,9 @@ func (d *gormLogger) Println(v ...interface{}) {
 	if v[0] == "log" {
 		d.WithFields(logrus.Fields{"query": v[2]}).Info("Query log")
 	}
+}
+
+// Print format & print log
+func (d *gormLogger) Print(values ...interface{}) {
+	d.Println(values...)
 }
