@@ -1,22 +1,20 @@
 package gormLogger
 
 import (
-	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
 )
 
-type gormLogger struct {
+type GormLogger struct {
 	*logrus.Logger
-	gorm.LogWriter
 }
 
 //NewLogger initiates new gorm logger
-func NewLogger(logger *logrus.Logger) gorm.LogWriter {
-	return &gormLogger{Logger: logger}
+func NewLogger(logger *logrus.Logger) *GormLogger {
+	return &GormLogger{Logger: logger}
 }
 
 //Println accepts db logs ang uses logrus to log them
-func (d *gormLogger) Println(v ...interface{}) {
+func (d *GormLogger) Println(v ...interface{}) {
 	if v[0] == "sql" {
 		d.WithFields(logrus.Fields{"query": v[3], "values": v[4], "rows": v[5], "latency": v[2]}).Info("Query sql")
 	}
@@ -26,6 +24,6 @@ func (d *gormLogger) Println(v ...interface{}) {
 }
 
 // Print format & print log
-func (d *gormLogger) Print(values ...interface{}) {
+func (d *GormLogger) Print(values ...interface{}) {
 	d.Println(values...)
 }
