@@ -16,10 +16,10 @@ func NewLogger(logger *logrus.Logger) *GormLogger {
 //Println accepts db logs ang uses logrus to log them
 func (d *GormLogger) Println(v ...interface{}) {
 	if v[0] == "sql" {
-		d.WithFields(logrus.Fields{"query": v[3], "values": v[4], "rows": v[5], "latency": v[2]}).Info("Query sql")
+		d.WithFields(logrus.Fields{"query": v[3], "values": v[4], "rows": v[5], "latency": v[2]}).Debug("Query sql")
 	}
 	if v[0] == "log" {
-		d.WithFields(logrus.Fields{"query": v[2]}).Info("Query log")
+		d.WithFields(logrus.Fields{"query": v[2]}).Debug("Query log")
 	}
 }
 
