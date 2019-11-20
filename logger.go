@@ -13,17 +13,21 @@ func NewLogger(logger *logrus.Logger) *GormLogger {
 	return &GormLogger{Logger: logger}
 }
 
-//Println accepts db logs ang uses logrus to log them
-func (d *GormLogger) Println(v ...interface{}) {
-	if v[0] == "sql" {
-		d.WithFields(logrus.Fields{"query": v[3], "values": v[4], "rows": v[5], "latency": v[2]}).Debug("Query sql")
-	}
-	if v[0] == "log" {
-		d.WithFields(logrus.Fields{"query": v[2]}).Debug("Query log")
-	}
-}
-
 // Print format & print log
-func (d *GormLogger) Print(values ...interface{}) {
-	d.Println(values...)
+func (d *GormLogger) Print(v ...interface{}) {
+	switch v[0] {
+	case "sql":
+		d.WithFields(logrus.Fields{
+			"module":  "gorm",
+			"type":    "sql",
+			"query":   v[3],
+			"values":  v[4],
+			"latency": v[2],
+			"rows":    v[5],
+			"src_ref": v[1],
+		}).
+			Debug("sql query")
+	case "log":
+		d.WithFields(logrus.Fields{"module": "gorm", "type": "log", "query": v[2]}).Debug("query log")
+	}
 }
