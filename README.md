@@ -1,3 +1,5 @@
+This repo is **DEPRECATED**! Use https://github.com/spacetab-io/logs-gorm-go instead.
+
 logs-go-gorm
 -----------
 
